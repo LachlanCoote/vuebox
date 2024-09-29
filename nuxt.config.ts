@@ -1,5 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/vuebox/',
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/vuebox/favicon.ico' },
+      ],
+    },
+  },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   eslint: {
