@@ -3,5 +3,7 @@
     <NavBar />
     <NuxtRouteAnnouncer />
     <NuxtPage />
+
+    <UNotifications />
   </div>
 </template>

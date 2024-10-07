@@ -3,10 +3,6 @@ const links = [[{
   label: 'Home',
   icon: 'i-heroicons-home-solid',
   to: '/',
-}], [{
-  label: 'Form',
-  icon: 'i-heroicons-pencil-square-solid',
-  to: '/form',
 }]]
 </script>
 
@@ -15,7 +11,7 @@ const links = [[{
     <div class="container mx-auto flex justify-between items-center">
       <div class="text-white text-lg font-bold">
         <NuxtLink to="/" class="hover:text-gray-400">
-          Vue Box
+          Vuebox
         </NuxtLink>
       </div>
       <div class="ml-auto">
