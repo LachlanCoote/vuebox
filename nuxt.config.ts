@@ -24,8 +24,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxtjs/i18n',
-    '@nuxtjs/supabase',
     '@pinia/nuxt',
+    '@vite-pwa/nuxt',
   ],
   typescript: {
     typeCheck: true,
