@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   extends: [
     // eslint-disable-next-line node/prefer-global/process
-    ...process.env.CONFIG_EXTENDS?.split(',') || [],
+    process.env.APP_MODE === 'impl1'
+      ? './impl1'
+      : './impl2',
     './base',
   ],
+  future: {
+    compatibilityVersion: 4,
+  },
 })

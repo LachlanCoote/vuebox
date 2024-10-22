@@ -40,12 +40,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   ssr: false,
-  typescript: {
-    typeCheck: true,
-  },
-  runtimeConfig: {
-    public: {
-      usePWA: false,
-    },
-  },
+  // Doesn't play nice with Nuxt UI V3 yet
+  // typescript: {
+  //   typeCheck: true,
+  // }
 })

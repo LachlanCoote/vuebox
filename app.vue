@@ -1,13 +1,15 @@
-<script lang="ts" setup>
-</script>
-
 <template>
   <div>
-    <NuxtPwaManifest v-if="$config.public.usePWA" />
+    <MyManifest />
     <NavBar />
     <MyHello />
     <NuxtRouteAnnouncer />
     <NuxtPage />
-    <UNotifications />
   </div>
 </template>
+
+<style>
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "assets/css/colours.css";
+</style>

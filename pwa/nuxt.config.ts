@@ -2,6 +2,9 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false,
   },
+  future: {
+    compatibilityVersion: 4,
+  },
   modules: [
     '@vite-pwa/nuxt',
   ],
@@ -28,10 +31,5 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true },
-  },
-  runtimeConfig: {
-    public: {
-      usePWA: true,
-    },
   },
 })
