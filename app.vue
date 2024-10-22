@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <MyManifest />
-    <NavBar />
-    <MyHello />
+  <UApp>
+    <MyPWA />
     <NuxtRouteAnnouncer />
-    <NuxtPage />
-  </div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <style>
