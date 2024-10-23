@@ -1,5 +1,5 @@
 <template>
-  <div class="full-viewport mx-auto dark:bg-primary">
+  <div class="full-viewport mx-auto">
     <slot />
   </div>
 </template>

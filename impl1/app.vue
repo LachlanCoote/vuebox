@@ -1,14 +1,8 @@
 <template>
-  <UApp>
+  <div>
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </UApp>
+  </div>
 </template>
-
-<style>
-@import "tailwindcss";
-@import "@nuxt/ui";
-@import "../assets/css/colours.css";
-</style>

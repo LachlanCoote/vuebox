@@ -4,7 +4,6 @@
 
 <template>
   <div>
-    <div>hello</div>
     <KeyboardGrid />
   </div>
 </template>

@@ -34,10 +34,10 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   modules: [
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@nuxtjs/i18n',
     '@pinia/nuxt',
+    '@nuxt/eslint',
+    '@nuxtjs/i18n',
+    '@nuxt/ui',
   ],
   ssr: false,
   // Doesn't play nice with Nuxt UI V3 yet
