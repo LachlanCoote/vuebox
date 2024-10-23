@@ -1,33 +1,10 @@
 {
-  "name": "nuxt-app",
-  "type": "module",
-  "private": true,
-  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b",
+  "name": "vuebox-monorepo",
   "scripts": {
-    "build": "nuxt build",
-    "dev1": "nuxt dev -o --dotenv .env.impl1",
-    "dev2": "nuxt dev -o --dotenv .env.impl2",
-    "generate": "nuxt generate",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@nuxt/eslint": "^0.6.0",
-    "@nuxt/ui": "3.0.0-alpha.6",
-    "@nuxtjs/i18n": "^8.5.5",
-    "@pinia/nuxt": "^0.5.5",
-    "@vite-pwa/nuxt": "^0.10.5",
-    "nuxt": "^3.13.2",
-    "vue": "^3.5.12",
-    "vue-router": "latest"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^3.8.0",
-    "@iconify-json/heroicons": "^1.2.1",
-    "eslint": "^9.12.0",
-    "typescript": "^5.6.3",
-    "vue-tsc": "^2.1.6"
+    "build": "pnpm -r build",
+    "impl1": "pnpm --filter nuxt-app-impl1 dev",
+    "impl2": "pnpm --filter impl2 dev",
+    "prepare": "pnpm -r prepare",
+    "upgrade": "pnpm -r upgrade"
   }
 }

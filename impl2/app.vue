@@ -1,6 +1,6 @@
 <template>
   <UApp>
-    <MyPWA />
+    <NuxtPwaManifest />
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
