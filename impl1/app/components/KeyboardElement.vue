@@ -2,7 +2,7 @@
 import type { IKeyboardElement } from '~/types/interfaces/IKeyboard'
 
 const element = defineModel<IKeyboardElement>('element', { required: true })
-const isSpan = computed(() => element.value?.colStart == null && element.value?.rowStart == null)
+const isSpan = computed(() => element.value?.colStart === undefined && element.value?.rowStart === undefined)
 </script>
 
 <template>

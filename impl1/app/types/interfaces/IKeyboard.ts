@@ -5,23 +5,22 @@ export interface IKeyboard {
 }
 
 export interface IKeyboardElement {
-  id: number
-  type: KBType
-  label?: string
+  key: string
+  type: KBElementType
   colStart?: number
-  colEnd?: number
   rowStart?: number
-  rowEnd?: number
-  colSpan?: number
-  rowSpan?: number
+  colSpan: number
+  rowSpan: number
 }
 
 export interface IKeyboardButton extends IKeyboardElement {
+  linkId: number
   label: string
 }
 
-export enum KBType {
+export enum KBElementType {
   Button = 'Button',
   SalesBox = 'SalesBox',
   NumPad = 'NumPad',
+  Empty = 'Empty',
 }
