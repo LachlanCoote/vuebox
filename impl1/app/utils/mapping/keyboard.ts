@@ -1,7 +1,7 @@
 import type { IKeyboardDTO } from '~/types/dtos/IKeyboardDTO'
 import type { IKeyboardFixedKeyDTO } from '~/types/dtos/IKeyboardFixedKeyDTO'
 import type { IKeyboardLayoutDTO } from '~/types/dtos/IKeyboardLayoutDTO'
-import { type IKeyboard, type IKeyboardButton, type IKeyboardElement, KBElementType } from '~/types/interfaces/IKeyboard'
+import { type IKeyboard, type IKeyboardButton, type IKeyboardElement, KBButtonType, KBElementType } from '~/types/interfaces/IKeyboard'
 
 export function mapKeyboard(keyboardDTO: IKeyboardDTO | undefined, layoutDTO: IKeyboardLayoutDTO): IKeyboard {
   if (!keyboardDTO) {
@@ -22,7 +22,8 @@ export function mapKeyboardElements(keyboardDTO: IKeyboardDTO, layoutDTO: IKeybo
   const columns = keyboardDTO.buttonsAcross
   const rows = keyboardDTO.buttonsDown
   const elements = [] as IKeyboardElement[]
-  const checkElements = [] as IKeyboardElement[]
+  const checkFreeElements = [] as IKeyboardElement[]
+  const checkFixedElements = [] as IKeyboardElement[]
 
   const salesBox = {
     key: 'salesBox',
@@ -51,38 +52,58 @@ export function mapKeyboardElements(keyboardDTO: IKeyboardDTO, layoutDTO: IKeybo
 
   if (!keyboardDTO.disableSalesGrid) {
     elements.push(salesBox)
-    checkElements.push(salesBox)
   }
   if (keyboardDTO.numPadVisible) {
     elements.push(numPad)
-    checkElements.push(numPad)
   }
 
   let fixedKeyCount = 0
   let freeKeyCount = 0
+  const fixedKeyPositions = transposeFixedKeyPositions(fixedKeyBlock, salesBox, numPad)
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < columns; col++) {
       const colStart = col + 1
       const rowStart = row + 1
       let element = undefined as IKeyboardElement | undefined
-      // Check if the cell is within the bounds of existing elements
-      if (checkElements.some(ce => isWithinBounds(colStart, rowStart, ce)))
+
+      // Check if the cell is within the bounds of the SalesBox
+      if (!keyboardDTO.disableSalesGrid && isWithinBounds(colStart, rowStart, salesBox)) {
         continue
+      }
+      // Check if the cell is within the bounds of the NumPad
+      if (keyboardDTO.numPadVisible && isWithinBounds(colStart, rowStart, numPad)) {
+        continue
+      }
+      // Check if the cell is within the bounds of existing free elements
+      if (checkFixedElements.some(ce => isWithinBounds(colStart, rowStart, ce))) {
+        fixedKeyCount += 1
+        continue
+      }
+      // Check if the cell is within the bounds of existing free elements
+      if (checkFreeElements.some(ce => isWithinBounds(colStart, rowStart, ce))) {
+        freeKeyCount += 1
+        continue
+      }
 
       // Check if the cell is within the bounds of FixedKey grid
       if (isWithinBounds(colStart, rowStart, fixedKeyBlock)) {
         fixedKeyCount += 1
-        const fixedKey = keyboardDTO.fixedKeys.find(fk => fk.keyPos === fixedKeyCount)
+        const fixedKey = keyboardDTO.fixedKeys.find(fk => fk.keyPos === fixedKeyPositions[fixedKeyCount])
         if (fixedKey) {
           element = {
             key: `fixedKey-${row}-${col}`,
             linkId: fixedKey.linkId,
             label: fixedKey.caption,
+            hideCaption: fixedKey.hideCaption,
             type: KBElementType.Button,
+            buttonType: KBButtonType.Fixed,
             colSpan: fixedKey.columnsSpanned,
             rowSpan: fixedKey.rowsSpanned,
+            image: fixedKey.imageData,
           } as IKeyboardButton
+          if (element.colSpan > 1 || element.rowSpan > 1)
+            checkFixedElements.push({ ...element, colStart, rowStart })
         }
       }
       else {
@@ -94,9 +115,13 @@ export function mapKeyboardElements(keyboardDTO: IKeyboardDTO, layoutDTO: IKeybo
             linkId: freeKey.linkId,
             label: freeKey.caption,
             type: KBElementType.Button,
+            buttonType: KBButtonType.Free,
             colSpan: freeKey.columnsSpanned,
             rowSpan: freeKey.rowsSpanned,
-          } as IKeyboardElement
+            image: freeKey.imageData,
+          } as IKeyboardButton
+          if (element.colSpan > 1 || element.rowSpan > 1)
+            checkFreeElements.push({ ...element, colStart, rowStart })
         }
       }
       // No matching
@@ -108,13 +133,6 @@ export function mapKeyboardElements(keyboardDTO: IKeyboardDTO, layoutDTO: IKeybo
           rowSpan: 1,
         } as IKeyboardElement
       }
-      if (element.colSpan > 1 || element.rowSpan > 1) {
-        checkElements.push({
-          ...element,
-          colStart,
-          rowStart,
-        })
-      }
       elements.push(element)
     }
   }
@@ -124,4 +142,22 @@ export function mapKeyboardElements(keyboardDTO: IKeyboardDTO, layoutDTO: IKeybo
 function isWithinBounds(colStart: number, rowStart: number, element: IKeyboardElement): boolean {
   return colStart >= element.colStart! && colStart < element.colStart! + element.colSpan
     && rowStart >= element.rowStart! && rowStart < element.rowStart! + element.rowSpan
+}
+
+function transposeFixedKeyPositions(fixedAreaBlock: IKeyboardElement, salesBox: IKeyboardElement, numPad: IKeyboardElement): number[] {
+  const fixedKeyPositions = [] as number[]
+  let keyPos = 1
+  for (let col = 0; col < fixedAreaBlock.colSpan; col++) {
+    for (let row = 0; row < fixedAreaBlock.rowSpan; row++) {
+      const colStartCheck = col + fixedAreaBlock.colStart! + 1
+      const rowStartCheck = row + fixedAreaBlock.rowStart! + 1
+      // Check if the cell is within the bounds of the SalesBox or NumPad
+      if (isWithinBounds(colStartCheck, rowStartCheck, salesBox) || isWithinBounds(colStartCheck, rowStartCheck, numPad)) {
+        continue
+      }
+      fixedKeyPositions[(row * fixedAreaBlock.colSpan) + col + 1] = keyPos
+      keyPos++
+    }
+  }
+  return fixedKeyPositions
 }

@@ -35,4 +35,5 @@ export interface IKeyboardFixedKeyDTO {
   buttonPassword: number
   ttClearItemsSecurityGroup: string
   extras: string
+  imageData: Uint8Array
 }

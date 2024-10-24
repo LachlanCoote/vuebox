@@ -35,4 +35,5 @@ export interface ILayoutFreeKeyDTO {
   buttonPassword: number
   ttClearItemsSecurityGroup: string
   extras: string
+  imageData: Uint8Array
 }

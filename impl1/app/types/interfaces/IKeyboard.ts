@@ -14,8 +14,11 @@ export interface IKeyboardElement {
 }
 
 export interface IKeyboardButton extends IKeyboardElement {
+  buttonType: KBButtonType
   linkId: number
   label: string
+  hideCaption: boolean
+  image: Uint8Array
 }
 
 export enum KBElementType {
@@ -23,4 +26,9 @@ export enum KBElementType {
   SalesBox = 'SalesBox',
   NumPad = 'NumPad',
   Empty = 'Empty',
+}
+
+export enum KBButtonType {
+  Fixed = 'Fixed',
+  Free = 'Free',
 }

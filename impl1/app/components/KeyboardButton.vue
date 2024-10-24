@@ -19,7 +19,7 @@ function handleClick() {
     :class="{ pressed: isPressed }"
     @click="handleClick"
   >
-    <div class="mx-auto text-center">
+    <div v-if="!button.hideCaption" class="mx-auto text-center">
       {{ button.label }}
     </div>
   </UButton>
