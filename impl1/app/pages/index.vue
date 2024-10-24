@@ -4,7 +4,6 @@
 
 <template>
   <div class="flex flex-col h-full">
-    <div class="flex-auto" />
-    <KeyboardGrid />
+    <KeyboardGrid class="flex-auto" />
   </div>
 </template>

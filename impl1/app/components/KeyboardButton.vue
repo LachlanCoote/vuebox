@@ -1,14 +1,7 @@
 <script setup lang="ts">
-const { button } = defineProps<{
-  button: {
-    id?: number
-    label: string
-    colSpan: number
-    rowSpan: number
-  }
-}>()
-const columnSpan = computed(() => button.colSpan)
-const rowSpan = computed(() => button.rowSpan)
+import type { IKeyboardButton } from '~/types/interfaces/IKeyboard'
+
+const button = defineModel<IKeyboardButton>('button', { required: true })
 const isPressed = ref(false)
 
 function handleClick() {
@@ -20,26 +13,19 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="keyboard-button">
-    <UButton
-      class="w-full h-full"
-      color="indigo"
-      :class="{ pressed: isPressed }"
-      @click="handleClick"
-    >
-      <div class="mx-auto text-center">
-        {{ button.label }}
-      </div>
-    </UButton>
-  </div>
+  <UButton
+    class="w-full h-full"
+    color="indigo"
+    :class="{ pressed: isPressed }"
+    @click="handleClick"
+  >
+    <div class="mx-auto text-center">
+      {{ button.label }}
+    </div>
+  </UButton>
 </template>
 
 <style scoped>
-.keyboard-button {
-    grid-column: span v-bind(columnSpan);
-    grid-row: span v-bind(rowSpan);
-}
-
 .pressed {
   animation: press-animation 0.2s ease-in-out;
 }

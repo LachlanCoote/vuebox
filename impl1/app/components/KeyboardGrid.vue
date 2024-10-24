@@ -1,32 +1,44 @@
 <script setup lang="ts">
-const columns = 5
-const buttons = [
-  { id: 1, label: 'Button 1', colSpan: 1, rowSpan: 1 },
-  { id: 2, label: 'Button 2', colSpan: 1, rowSpan: 1 },
-  { id: 3, label: 'Button 3', colSpan: 1, rowSpan: 1 },
-  { id: 4, label: 'Button 4', colSpan: 2, rowSpan: 1 },
-  { id: 5, label: 'Button 5', colSpan: 1, rowSpan: 1 },
-  { id: 6, label: 'Button 6', colSpan: 1, rowSpan: 1 },
-  { id: 7, label: 'Button 7', colSpan: 1, rowSpan: 1 },
-  { id: 8, label: 'Button 8', colSpan: 1, rowSpan: 1 },
-  { id: undefined, label: '', colSpan: 1, rowSpan: 1 },
-  // Add more buttons as needed
-]
+import { type IKeyboardButton, type IKeyboardElement, KBType } from '~/types/interfaces/IKeyboard'
+
+const columns = 8
+const rows = 12
+const elements = [
+  { id: 1, label: 'Button 1', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+  { id: 2, label: 'Button 2', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+  { id: 3, label: 'Button 3', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+  { id: 4, label: 'SalesGrid', type: KBType.SalesBox, colSpan: 2, rowSpan: 4, colStart: 1, rowStart: 1 },
+  { id: 5, label: 'Button 5', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+  { id: 6, label: 'Numpad', type: KBType.NumPad, colSpan: 2, rowSpan: 3, colStart: 4, rowStart: 1 },
+  { id: 7, label: 'Button 7', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+  { id: 8, label: 'Button 8', type: KBType.Button, colSpan: 1, rowSpan: 1 },
+] as IKeyboardElement[]
 </script>
 
 <template>
-  <div class="button-grid gap-1 p-4 min-h-72">
-    <KeyboardButton
-      v-for="button in buttons"
-      :key="button.id"
-      :button
-    />
+  <div class="keyboard-grid gap-1 p-4 dark:bg-gray-600">
+    <KeyboardElement
+      v-for="element in elements"
+      :key="element.id"
+      :element
+    >
+      <template v-if="element.type === KBType.Button">
+        <KeyboardButton :button="(element as IKeyboardButton)" />
+      </template>
+      <template v-else-if="element.type === KBType.SalesBox">
+        <KeyboardSalesBox />
+      </template>
+      <template v-else-if="element.type === KBType.NumPad">
+        <KeyboardNumPad />
+      </template>
+    </KeyboardElement>
   </div>
 </template>
 
 <style scoped>
-.button-grid {
+.keyboard-grid {
   display: grid;
   grid-template-columns: repeat(v-bind(columns), minmax(0, 1fr));
+  grid-template-rows: repeat(v-bind(rows), minmax(0, 1fr));
 }
 </style>
